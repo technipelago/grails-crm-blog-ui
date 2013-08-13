@@ -23,22 +23,12 @@
                         ['Paste', 'PasteText', 'PasteFromWord'],
                         ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
                         ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                        ['Image', 'Link', 'Unlink'],
+                        ['Link', 'Unlink'], /* Image upload is not available until document is created */
                         ['Table', 'HorizontalRule']
                     ],
                     basicEntities: false,
                     protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g],
                     baseHref: "${createLink(controller: 'static')}"
-                    /*,
-                    font_names: ['Arial','Helvetica','Verdana'],
-                    forcePasteAsPlainText: true,
-                    htmlEncodeOutput: false,
-                    entities: false,
-                    */
-                    filebrowserBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                    filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
-                    filebrowserImageBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                    filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
                 });
 
             $('#visibleFrom').closest('.date').datepicker({weekStart: 1}).on('changeDate', function (ev) {
