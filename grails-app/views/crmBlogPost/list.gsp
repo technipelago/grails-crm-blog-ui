@@ -29,7 +29,7 @@
         <tr class="${crmBlogPost.active ? '' : 'disabled'}">
 
             <td>
-                <g:link controller="crmBlog" action="show" id="${crmBlogPost.id}">
+                <g:link controller="crmBlogPost" action="show" id="${crmBlogPost.id}">
                     ${fieldValue(bean: crmBlogPost, field: "title")}
                 </g:link>
             </td>

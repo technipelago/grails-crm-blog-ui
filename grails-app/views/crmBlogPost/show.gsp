@@ -47,6 +47,12 @@
                         <g:form>
                             <g:hiddenField name="id" value="${crmBlogPost?.id}"/>
 
+                            <crm:selectionMenu location="crmBlogPost" visual="primary">
+                                <crm:button type="link" controller="crmBlogPost" action="index"
+                                            visual="primary" icon="icon-search icon-white"
+                                            label="crmBlogPost.button.find.label"/>
+                            </crm:selectionMenu>
+
                             <crm:button type="link" action="edit" id="${crmBlogPost?.id}" visual="warning"
                                         icon="icon-pencil icon-white"
                                         label="crmBlogPost.button.edit.label" permission="crmBlogPost:edit">

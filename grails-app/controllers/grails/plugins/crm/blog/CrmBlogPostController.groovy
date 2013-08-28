@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Blog Authoring controller.
  */
-class CrmBlogController {
+class CrmBlogPostController {
 
     static allowedMethods = [create: ["GET", "POST"], edit: ["GET", "POST"], delete: "POST"]
 
