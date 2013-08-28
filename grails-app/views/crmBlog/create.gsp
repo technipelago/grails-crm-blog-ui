@@ -139,7 +139,7 @@
     </div>
 
     <div class="form-actions">
-        <crm:button action="create" visual="primary" icon="icon-ok icon-white" label="crmBlogPost.button.save.label"/>
+        <crm:button action="create" visual="success" icon="icon-ok icon-white" label="crmBlogPost.button.save.label"/>
     </div>
 
 </g:form>

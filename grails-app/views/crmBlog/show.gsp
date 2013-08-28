@@ -47,7 +47,7 @@
                         <g:form>
                             <g:hiddenField name="id" value="${crmBlogPost?.id}"/>
 
-                            <crm:button type="link" action="edit" id="${crmBlogPost?.id}" visual="primary"
+                            <crm:button type="link" action="edit" id="${crmBlogPost?.id}" visual="warning"
                                         icon="icon-pencil icon-white"
                                         label="crmBlogPost.button.edit.label" permission="crmBlogPost:edit">
                             </crm:button>

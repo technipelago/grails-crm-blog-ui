@@ -175,7 +175,7 @@
     </div>
 
     <div class="form-actions">
-        <crm:button action="edit" visual="primary" icon="icon-ok icon-white" label="crmBlogPost.button.update.label"/>
+        <crm:button action="edit" visual="warning" icon="icon-ok icon-white" label="crmBlogPost.button.update.label"/>
         <crm:button action="delete" visual="danger" icon="icon-trash icon-white"
                     label="crmBlogPost.button.delete.label"
                     confirm="crmBlogPost.button.delete.confirm.message"
