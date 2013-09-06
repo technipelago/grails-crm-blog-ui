@@ -42,8 +42,8 @@ grails.project.dependency.resolution = {
         runtime "grails.crm:crm-security:latest.integration"
         runtime "grails.crm:crm-ui-bootstrap:latest.integration"
         runtime "grails.crm:crm-tags:latest.integration"
-//        runtime "grails.crm:crm-blog:latest.integration"
-        runtime "grails.crm:crm-content:latest.integration"
+        compile "grails.crm:crm-blog:latest.integration"
+        compile "grails.crm:crm-content:latest.integration"
 
         compile ":selection:latest.integration"
         runtime ":selection-repository:latest.integration"
@@ -52,4 +52,4 @@ grails.project.dependency.resolution = {
     }
 }
 
-grails.plugin.location.'crm-blog' = "../crm-blog"
+//grails.plugin.location.'crm-blog' = "../crm-blog"

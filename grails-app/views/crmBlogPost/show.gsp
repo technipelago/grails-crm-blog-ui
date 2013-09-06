@@ -35,7 +35,7 @@
                     <div class="clearfix">
                         <g:if test="${template}">
                             <crm:render template="${template}" parser="${crmBlogPost.parser}"
-                                        model="${crmBlogPost.dao}"/>
+                                        authorized="true" model="${crmBlogPost.dao}"/>
                         </g:if>
                         <g:else>
                             No content!

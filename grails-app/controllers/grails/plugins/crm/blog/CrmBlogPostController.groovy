@@ -158,6 +158,16 @@ class CrmBlogPostController {
                             [title: 'Artikelns innehåll', status: "shared"])
                 }
 
+                // Update status on attached content based on blog status.
+                String statusName = crmBlogPost.status?.param
+                if (statusName && template) {
+                    def contentStatus = grailsApplication.config.crm.blog.content.status[statusName]
+                    if (contentStatus) {
+                        template.statusText = contentStatus
+                        template.save()
+                    }
+                }
+
                 flash.success = message(code: 'crmBlogPost.updated.message', args: [message(code: 'crmBlogPost.label', default: 'Blog'), crmBlogPost.toString()])
                 redirect(action: "show", id: crmBlogPost.id)
                 break

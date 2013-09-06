@@ -140,6 +140,7 @@
 
     <div class="form-actions">
         <crm:button action="create" visual="success" icon="icon-ok icon-white" label="crmBlogPost.button.save.label"/>
+        <crm:button type="link" action="index" icon="icon-remove" label="crmBlogPost.button.back.label"/>
     </div>
 
 </g:form>
