@@ -1,17 +1,27 @@
+/*
+ * Copyright (c) 2013 Goran Ehrsson.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 class CrmBlogUiGrailsPlugin {
-    // Dependency group
     def groupId = "grails.crm"
-    // the plugin version
-    def version = "1.0-SNAPSHOT"
-    // the version or versions of Grails the plugin is designed for
+    def version = "1.0.0"
     def grailsVersion = "2.0 > *"
-    // the other plugins this plugin depends on
     def dependsOn = [:]
-    // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
-
     def title = "Crm Blog Author Plugin"
     def author = "Göran Ehrsson"
     def authorEmail = "goran@technipelago.se"
@@ -21,10 +31,8 @@ Grails CRM Blog Author User Interface
     def documentation = "http://grails.org/plugin/crm-blog-ui"
     def license = "APACHE"
     def organization = [name: "Technipelago AB", url: "http://www.technipelago.se/"]
-
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+    def issueManagement = [system: "github", url: "https://github.com/goeh/grails-crm-blog-ui/issues"]
+    def scm = [url: "https://github.com/goeh/grails-crm-blog-ui"]
 
     def features = {
         crmBlog {
@@ -32,6 +40,7 @@ Grails CRM Blog Author User Interface
             link controller: "crmBlog", action: "index"
             permissions {
                 guest "crmBlogPost:index,list,show"
+                partner "crmBlogPost:index,list,show"
                 user "crmBlogPost:*"
                 admin "crmBlogPost,crmBlogStatus:*"
             }
