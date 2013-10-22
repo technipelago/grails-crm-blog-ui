@@ -13,4 +13,4 @@ With CRM we mean features like:
 
 ## Blog Authoring Plugin
 This plugin provides user interfaces for authors of Grails CRM Blogs.
-This plugin depends on the crm-blog plugin for services and storage.
+This plugin depends on the [crm-blog](https://github.com/technipelago/grails-crm-blog) plugin for services and persistence.
