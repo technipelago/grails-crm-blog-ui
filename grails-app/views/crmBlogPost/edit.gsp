@@ -113,7 +113,8 @@
                             <div class="span7">
                                 <div class="row-fluid">
                                     <f:field property="title" input-class="span11"/>
-                                    <f:field property="description" input-rows="9" input-class="span11"/>
+                                    <f:field property="name" input-class="span11"/>
+                                    <f:field property="description" input-rows="6" input-class="span11"/>
 
                                     <f:field property="username">
                                         <g:select name="username" from="${userList}" optionKey="username"
