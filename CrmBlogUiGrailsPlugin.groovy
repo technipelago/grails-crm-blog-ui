@@ -16,23 +16,23 @@
 
 class CrmBlogUiGrailsPlugin {
     def groupId = "grails.crm"
-    def version = "1.0.0"
+    def version = "1.2.0"
     def grailsVersion = "2.0 > *"
     def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
-    def title = "Crm Blog Author Plugin"
+    def title = "GR8 CRM Blog Author Plugin"
     def author = "Göran Ehrsson"
     def authorEmail = "goran@technipelago.se"
     def description = '''\
-Grails CRM Blog Author User Interface
+GR8 CRM Blog Author User Interface
 '''
-    def documentation = "http://grails.org/plugin/crm-blog-ui"
+    def documentation = "https://github.com/technipelago/grails-crm-blog-ui"
     def license = "APACHE"
     def organization = [name: "Technipelago AB", url: "http://www.technipelago.se/"]
-    def issueManagement = [system: "github", url: "https://github.com/goeh/grails-crm-blog-ui/issues"]
-    def scm = [url: "https://github.com/goeh/grails-crm-blog-ui"]
+    def issueManagement = [system: "github", url: "https://github.com/technipelago/grails-crm-blog-ui/issues"]
+    def scm = [url: "https://github.com/technipelago/grails-crm-blog-ui"]
 
     def features = {
         crmBlog {
