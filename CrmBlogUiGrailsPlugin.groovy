@@ -16,13 +16,13 @@
 
 class CrmBlogUiGrailsPlugin {
     def groupId = "grails.crm"
-    def version = "1.2.0"
+    def version = "1.2.1"
     def grailsVersion = "2.0 > *"
     def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
-    def title = "GR8 CRM Blog Author Plugin"
+    def title = "GR8 CRM Blog Authoring Plugin"
     def author = "Göran Ehrsson"
     def authorEmail = "goran@technipelago.se"
     def description = '''\
