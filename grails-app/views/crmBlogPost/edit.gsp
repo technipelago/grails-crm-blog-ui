@@ -8,6 +8,12 @@
     <ckeditor:resources/>
     <r:script>
         $(document).ready(function () {
+            var stylesheet = ["${resource(dir: 'less', file: 'bootstrap.less.css', plugin: 'twitter-bootstrap')}",
+            "${resource(dir: 'less', file: 'crm-ui-bootstrap.less.css', plugin: 'crm-ui-bootstrap')}",
+            "${resource(dir: 'less', file: 'responsive.less.css', plugin: 'twitter-bootstrap')}"];
+            <% if (css) { %>
+            stylesheet.push("${resource(css)}");
+            <% } %>
             var editor = CKEDITOR.replace('content',
                 {
                     width: '98.3%',
@@ -29,6 +35,7 @@
                     basicEntities: false,
                     protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g],
                     baseHref: "${createLink(controller: 'static')}",
+                    contentsCss: stylesheet,
                     /*
                     font_names: ['Arial','Helvetica','Verdana'],
                     forcePasteAsPlainText: true,

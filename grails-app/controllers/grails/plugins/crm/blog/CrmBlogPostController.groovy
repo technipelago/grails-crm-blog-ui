@@ -135,17 +135,18 @@ class CrmBlogPostController {
         def statusList = CrmBlogStatus.findAllByTenantId(tenant)
         def files = crmContentService.findResourcesByReference(crmBlogPost)
         def template = files.find { it.name == 'content.html' }
+        def css = grailsApplication.config.crm.content.editor.css
 
         switch (request.method) {
             case "GET":
-                return [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList]
+                return [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css]
             case "POST":
                 if (params.int('version') != null) {
                     if (crmBlogPost.version > params.int('version')) {
                         crmBlogPost.errors.rejectValue("version", "crmBlogPost.optimistic.locking.failure",
                                 [message(code: 'crmBlogPost.label', default: 'Blog Post')] as Object[],
                                 "Another user has updated this Post while you were editing")
-                        render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList])
+                        render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css])
                         return
                     }
                 }
@@ -161,7 +162,7 @@ class CrmBlogPostController {
                 bindDate(crmBlogPost, 'visibleTo', visibleTo ? visibleTo + ' 23:59' : null, user?.timezoneInstance)
 
                 if (!crmBlogPost.save(flush: true)) {
-                    render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList])
+                    render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css])
                     return
                 }
 
