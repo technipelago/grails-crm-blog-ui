@@ -36,7 +36,7 @@
             </f:with>
 
             <div class="form-actions">
-                <crm:button visual="primary" icon="icon-ok icon-white" label="crmBlogStatus.button.save.label"/>
+                <crm:button visual="success" icon="icon-ok icon-white" label="crmBlogStatus.button.save.label"/>
                 <crm:button type="link" action="list"
                             icon="icon-remove"
                             label="crmBlogStatus.button.cancel.label"/>

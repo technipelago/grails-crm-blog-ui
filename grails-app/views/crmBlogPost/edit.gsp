@@ -11,30 +11,30 @@
             var stylesheet = ["${resource(dir: 'less', file: 'bootstrap.less.css', plugin: 'twitter-bootstrap')}",
             "${resource(dir: 'less', file: 'crm-ui-bootstrap.less.css', plugin: 'crm-ui-bootstrap')}",
             "${resource(dir: 'less', file: 'responsive.less.css', plugin: 'twitter-bootstrap')}"];
-            <% if (css) { %>
-            stylesheet.push("${resource(css)}");
-            <% } %>
-            var editor = CKEDITOR.replace('content',
-                {
-                    width: '98.3%',
-                    height: '480px',
-                    resize_enabled: true,
-                    startupFocus: true,
-                    skin: 'kama',
-                    toolbar: [
-                        ['Styles', 'Format', 'Font', 'FontSize'],
-                        ['Source'],
-                        '/',
-                        ['Bold', 'Italic', 'Underline', 'Strike', 'TextColor', 'BGColor', 'RemoveFormat'],
-                        ['Paste', 'PasteText', 'PasteFromWord'],
-                        ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
-                        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                        ['Image', 'Link', 'Unlink'],
-                        ['Table', 'HorizontalRule']
-                    ],
-                    basicEntities: false,
-                    protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g],
-                    baseHref: "${createLink(controller: 'static')}",
+        <% if (css) { %>
+        stylesheet.push("${resource(css)}");
+        <% } %>
+        var editor = CKEDITOR.replace('content',
+            {
+                width: '98.3%',
+                height: '480px',
+                resize_enabled: true,
+                startupFocus: true,
+                skin: 'kama',
+                toolbar: [
+                    ['Styles', 'Format', 'Font', 'FontSize'],
+                    ['Source'],
+                    '/',
+                    ['Bold', 'Italic', 'Underline', 'Strike', 'TextColor', 'BGColor', 'RemoveFormat'],
+                    ['Paste', 'PasteText', 'PasteFromWord'],
+                    ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+                    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                    ['Image', 'Link', 'Unlink'],
+                    ['Table', 'HorizontalRule']
+                ],
+                basicEntities: false,
+                protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g],
+                baseHref: "${createLink(controller: 'static')}",
                     contentsCss: stylesheet,
                     /*
                     font_names: ['Arial','Helvetica','Verdana'],
@@ -68,157 +68,122 @@
 
 <body>
 
-<div class="row-fluid">
-    <div class="span9">
+<crm:header title="crmBlogPost.edit.title" subtitle="${crmBlogPost.status}"
+            args="[entityName, crmBlogPost]"/>
 
-        <crm:header title="crmBlogPost.edit.title" subtitle="${crmBlogPost.status}"
-                    args="[entityName, crmBlogPost]"/>
-
-        <g:hasErrors bean="${crmBlogPost}">
-            <crm:alert class="alert-error">
-                <ul>
-                    <g:eachError bean="${crmBlogPost}" var="error">
-                        <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
-                                error="${error}"/></li>
-                    </g:eachError>
-                </ul>
-            </crm:alert>
-        </g:hasErrors>
-
-
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#main" data-toggle="tab"><g:message code="crmBlogPost.tab.layout.label"/></a>
-            </li>
-            <li><a href="#misc" data-toggle="tab"><g:message code="crmBlogPost.tab.misc.label"/></a>
-            </li>
-            <li><a href="#files" data-toggle="tab"><g:message
-                    code="crmBlogPost.tab.documents.label"/><crm:countIndicator
-                    count="${files.size()}"/></a>
-            </li>
-            <crm:pluginViews location="tabs" var="view">
-                <crm:pluginTab id="${view.id}" label="${view.label}" count="${view.model?.totalCount}"/>
-            </crm:pluginViews>
+<g:hasErrors bean="${crmBlogPost}">
+    <crm:alert class="alert-error">
+        <ul>
+            <g:eachError bean="${crmBlogPost}" var="error">
+                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
+                        error="${error}"/></li>
+            </g:eachError>
         </ul>
+    </crm:alert>
+</g:hasErrors>
 
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#main" data-toggle="tab"><g:message code="crmBlogPost.tab.layout.label"/></a>
+    </li>
+    <li><a href="#misc" data-toggle="tab"><g:message code="crmBlogPost.tab.misc.label"/></a>
+    </li>
+    <crm:pluginViews location="tabs" var="view">
+        <crm:pluginTab id="${view.id}" label="${view.label}" count="${view.model?.totalCount}"/>
+    </crm:pluginViews>
+</ul>
 
-        <g:form>
-            <g:hiddenField name="id" value="${crmBlogPost.id}"/>
-            <g:hiddenField name="version" value="${crmBlogPost.version}"/>
+<g:form>
+    <g:hiddenField name="id" value="${crmBlogPost.id}"/>
+    <g:hiddenField name="version" value="${crmBlogPost.version}"/>
 
-            <div class="tab-content">
+    <div class="tab-content">
 
-                <div class="tab-pane active" id="main">
-                    <div class="row-fluid">
-                        <g:textArea id="content" name="text" cols="70" rows="18" class="span11"
-                                    value="${template?.text}"/>
+        <div class="tab-pane active" id="main">
+            <div class="row-fluid">
+                <g:textArea id="content" name="text" cols="70" rows="18" class="span11"
+                            value="${template?.text}"/>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="misc">
+            <f:with bean="${crmBlogPost}">
+                <div class="row-fluid">
+                    <div class="span7">
+                        <div class="row-fluid">
+                            <f:field property="title" input-class="span11"/>
+                            <f:field property="name" input-class="span11"/>
+                            <f:field property="description" input-rows="6" input-class="span11"/>
+
+                            <f:field property="username">
+                                <g:select name="username" from="${metadata.userList}" optionKey="username"
+                                          optionValue="name" value="${crmBlogPost.username}"
+                                          noSelection="['': '']" class="span11"/>
+                            </f:field>
+                        </div>
+                    </div>
+
+                    <div class="span5">
+                        <div class="row-fluid">
+                            <f:field property="status">
+                                <g:select from="${metadata.statusList}" name="status.id" optionKey="id"
+                                          value="${crmBlogPost.status?.id}" class="span11"/>
+                            </f:field>
+
+                            <f:field property="date">
+                                <span id="publishDate" class="input-append date"
+                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date ?: new Date())}">
+                                    <g:textField name="date" class="span10" size="10"
+                                                 placeholder="ÅÅÅÅ-MM-DD"
+                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date)}"/><span
+                                        class="add-on"><i class="icon-th"></i></span>
+                                </span>
+                            </f:field>
+
+                            <f:field property="visibleFrom">
+                                <span class="input-append date"
+                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
+                                    <g:textField name="visibleFrom" class="span10" size="10"
+                                                 placeholder="ÅÅÅÅ-MM-DD"
+                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
+                                        class="add-on"><i class="icon-th"></i></span>
+                                </span>
+                            </f:field>
+                            <f:field property="visibleTo">
+                                <span class="input-append date"
+                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
+                                    <g:textField name="visibleTo" class="span10" size="10"
+                                                 placeholder="ÅÅÅÅ-MM-DD"
+                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
+                                        class="add-on"><i class="icon-th"></i></span>
+                                </span>
+                            </f:field>
+                            <f:field property="parser">
+                                <g:select from="${['raw', 'freemarker', 'gsp']}" name="parser"
+                                          value="${crmBlogPost.parser}" valueMessagePrefix="crmContent.parser"
+                                          class="span11"/>
+                            </f:field>
+                        </div>
                     </div>
                 </div>
+            </f:with>
 
-                <div class="tab-pane" id="misc">
-                    <f:with bean="${crmBlogPost}">
-                        <div class="row-fluid">
-                            <div class="span7">
-                                <div class="row-fluid">
-                                    <f:field property="title" input-class="span11"/>
-                                    <f:field property="name" input-class="span11"/>
-                                    <f:field property="description" input-rows="6" input-class="span11"/>
+        </div>
 
-                                    <f:field property="username">
-                                        <g:select name="username" from="${userList}" optionKey="username"
-                                                  optionValue="name" value="${crmBlogPost.username}"
-                                                  noSelection="['': '']" class="span11"/>
-                                    </f:field>
-                                </div>
-                            </div>
-
-                            <div class="span5">
-                                <div class="row-fluid">
-                                    <f:field property="status">
-                                        <g:select from="${statusList}" name="status.id" optionKey="id"
-                                                  value="${crmBlogPost.status?.id}" class="span11"/>
-                                    </f:field>
-
-                                    <f:field property="date">
-                                        <span id="publishDate" class="input-append date"
-                                              data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date ?: new Date())}">
-                                            <g:textField name="date" class="span10" size="10"
-                                                         placeholder="ÅÅÅÅ-MM-DD"
-                                                         value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date)}"/><span
-                                                class="add-on"><i class="icon-th"></i></span>
-                                        </span>
-                                    </f:field>
-
-                                    <f:field property="visibleFrom">
-                                        <span class="input-append date"
-                                              data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
-                                            <g:textField name="visibleFrom" class="span10" size="10"
-                                                         placeholder="ÅÅÅÅ-MM-DD"
-                                                         value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
-                                                class="add-on"><i class="icon-th"></i></span>
-                                        </span>
-                                    </f:field>
-                                    <f:field property="visibleTo">
-                                        <span class="input-append date"
-                                              data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
-                                            <g:textField name="visibleTo" class="span10" size="10"
-                                                         placeholder="ÅÅÅÅ-MM-DD"
-                                                         value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
-                                                class="add-on"><i class="icon-th"></i></span>
-                                        </span>
-                                    </f:field>
-                                    <f:field property="parser">
-                                        <g:select from="${['raw', 'freemarker', 'gsp']}" name="parser"
-                                                  value="${crmBlogPost.parser}" valueMessagePrefix="crmContent.parser"
-                                                  class="span11"/>
-                                    </f:field>
-                                </div>
-                            </div>
-                        </div>
-                    </f:with>
-
-                </div>
-
-                <div class="tab-pane" id="files">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Filnamn</th>
-                            <th>Filtyp</th>
-                            <th>Storlek</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <g:each in="${files}" var="file">
-                            <g:set var="metadata" value="${file.metadata}"/>
-                            <tr>
-                                <td>${file.name}</td>
-                                <td>${metadata.contentType}</td>
-                                <td>${metadata.size}</td>
-                            </tr>
-                        </g:each>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-                <crm:button action="edit" visual="warning" icon="icon-ok icon-white"
-                            label="crmBlogPost.button.update.label"/>
-                <crm:button action="delete" visual="danger" icon="icon-trash icon-white"
-                            label="crmBlogPost.button.delete.label"
-                            confirm="crmBlogPost.button.delete.confirm.message"
-                            permission="crmBlogPost:delete"/>
-                <crm:button type="link" action="show" id="${crmBlogPost.id}" icon="icon-remove"
-                            label="crmBlogPost.button.back.label"/>
-            </div>
-
-        </g:form>
     </div>
 
-    <div class="span3">
-        <g:render template="/tags" plugin="crm-tags" model="${[bean: crmBlogPost]}"/>
+    <div class="form-actions">
+        <crm:button action="edit" visual="warning" icon="icon-ok icon-white"
+                    label="crmBlogPost.button.update.label"/>
+        <crm:button action="delete" visual="danger" icon="icon-trash icon-white"
+                    label="crmBlogPost.button.delete.label"
+                    confirm="crmBlogPost.button.delete.confirm.message"
+                    permission="crmBlogPost:delete"/>
+        <crm:button type="link" action="show" id="${crmBlogPost.id}" icon="icon-remove"
+                    label="crmBlogPost.button.back.label"/>
     </div>
+
+</g:form>
+
 </div>
 </body>
 </html>

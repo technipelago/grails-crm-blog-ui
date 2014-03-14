@@ -38,13 +38,20 @@ class CrmBlogPostController {
     def crmCoreService
     def crmBlogService
     def crmContentService
+    def recentDomainService
 
     def index() {
         // If any query parameters are specified in the URL, let them override the last query stored in session.
         def cmd = new CrmBlogQueryCommand()
         def query = params.getSelectionQuery()
         bindData(cmd, query ?: WebUtils.getTenantData(request, 'crmBlogQuery'))
-        [cmd: cmd]
+        def metadata = [:]
+        metadata.userList = crmSecurityService.getTenantUsers()
+        metadata.statusList = crmBlogService.listBlogStatus()
+
+        def recentPosts = crmBlogService.list([fromDate: new Date() - 90], [max: 5, sort: 'date', order: 'desc'])
+
+        [cmd: cmd, metadata: metadata, recentPosts: recentPosts]
     }
 
     def list() {
@@ -67,7 +74,12 @@ class CrmBlogPostController {
         def result
         try {
             result = selectionService.select(uri, params)
-            [crmBlogPostList: result, crmBlogPostTotal: result.totalCount, selection: uri]
+            if (result.size() == 1) {
+                // If we only got one record, show the record immediately.
+                redirect action: "show", params: selectionService.createSelectionParameters(uri) + [id: result.head().ident()]
+            } else {
+                [crmBlogPostList: result, crmBlogPostTotal: result.totalCount, selection: uri]
+            }
         } catch (Exception e) {
             flash.error = e.message
             [crmBlogPostList: [], crmBlogPostTotal: 0, selection: uri]
@@ -82,11 +94,13 @@ class CrmBlogPostController {
     def create() {
         def tenant = TenantUtils.tenant
         def user = crmSecurityService.getCurrentUser()
-        def userList = crmSecurityService.getTenantUsers()
-        def statusList = CrmBlogStatus.findAllByTenantId(tenant)
         def crmBlogPost = new CrmBlogPost(username: user.username, status: statusList?.head())
 
         bindData(crmBlogPost, params, [include: CrmBlogPost.BIND_WHITELIST])
+
+        def metadata = [:]
+        metadata.userList = crmSecurityService.getTenantUsers()
+        metadata.statusList = crmBlogService.listBlogStatus()
 
         def template = [text: '']
         def fileList = []
@@ -107,7 +121,7 @@ class CrmBlogPostController {
                 bindDate(crmBlogPost, 'visibleFrom', visibleTo ? visibleTo + ' 23:59' : null, user?.timezoneInstance)
 
                 if (!crmBlogPost.save(flush: true)) {
-                    render(view: "create", model: [crmBlogPost: crmBlogPost, template: template, files: fileList, statusList: statusList, userList: userList])
+                    render(view: "create", model: [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata])
                     return
                 }
 
@@ -115,6 +129,8 @@ class CrmBlogPostController {
                 def inputStream = new ByteArrayInputStream(bytes)
                 crmContentService.createResource(inputStream, 'content.html', bytes.length, 'text/html', crmBlogPost,
                         [title: 'Artikelns innehåll', status: "shared"])
+
+                event(for: 'crmBlogPost', topic: 'created', data: [tenant: tenant, id: crmBlogPost.id, user: user.username])
 
                 flash.success = message(code: 'crmBlogPost.created.message', args: [message(code: 'crmBlogPost.label', default: 'Blog Post'), crmBlogPost.toString()])
                 redirect(action: "show", id: crmBlogPost.id)
@@ -131,22 +147,24 @@ class CrmBlogPostController {
             return
         }
         def user = crmSecurityService.getCurrentUser()
-        def userList = crmSecurityService.getTenantUsers()
-        def statusList = CrmBlogStatus.findAllByTenantId(tenant)
         def files = crmContentService.findResourcesByReference(crmBlogPost)
         def template = files.find { it.name == 'content.html' }
         def css = grailsApplication.config.crm.content.editor.css
 
+        def metadata = [:]
+        metadata.userList = crmSecurityService.getTenantUsers()
+        metadata.statusList = crmBlogService.listBlogStatus()
+
         switch (request.method) {
             case "GET":
-                return [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css]
+                return [crmBlogPost: crmBlogPost, template: template, files: files, metadata: metadata, css: css]
             case "POST":
                 if (params.int('version') != null) {
                     if (crmBlogPost.version > params.int('version')) {
                         crmBlogPost.errors.rejectValue("version", "crmBlogPost.optimistic.locking.failure",
                                 [message(code: 'crmBlogPost.label', default: 'Blog Post')] as Object[],
                                 "Another user has updated this Post while you were editing")
-                        render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css])
+                        render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, metadata: metadata, css: css])
                         return
                     }
                 }
@@ -162,7 +180,7 @@ class CrmBlogPostController {
                 bindDate(crmBlogPost, 'visibleTo', visibleTo ? visibleTo + ' 23:59' : null, user?.timezoneInstance)
 
                 if (!crmBlogPost.save(flush: true)) {
-                    render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, statusList: statusList, userList: userList, css: css])
+                    render(view: "edit", model: [crmBlogPost: crmBlogPost, template: template, files: files, metadata: metadata, css: css])
                     return
                 }
 
@@ -185,6 +203,8 @@ class CrmBlogPostController {
                     }
                 }
 
+                event(for: 'crmBlogPost', topic: 'updated', data: [tenant: tenant, id: crmBlogPost.id, user: user.username])
+
                 flash.success = message(code: 'crmBlogPost.updated.message', args: [message(code: 'crmBlogPost.label', default: 'Blog'), crmBlogPost.toString()])
                 redirect(action: "show", id: crmBlogPost.id)
                 break
@@ -202,8 +222,7 @@ class CrmBlogPostController {
         }
 
         try {
-            def tombstone = crmBlogPost.toString()
-            crmBlogPost.delete(flush: true)
+            def tombstone = crmBlogService.deleteBlogPost(crmBlogPost)
             flash.warning = message(code: 'crmBlogPost.deleted.message', args: [message(code: 'crmBlogPost.label', default: 'Blog Post'), tombstone])
             redirect(action: "index")
         }
@@ -226,7 +245,15 @@ class CrmBlogPostController {
         def files = crmContentService.findResourcesByReference(crmBlogPost)
         def template = files.find { it.name == 'content.html' }
 
-        [crmBlogPost: crmBlogPost, template: template, files: files]
+        /*
+         * If we include 'crmBlogPost:show' in the configuration [recentDomain.autoscan.actions] then it will pick up
+         * the template as a recent viewed domain instance. And we don't want the user to see the template as
+         * an accessable unit. I found no other way than to make sure 'crmBlogPost:show' is not auto-scanned
+         * and add only the crmBlogPost instance (below).
+         */
+        recentDomainService?.remember(crmBlogPost, request)
+
+        [crmBlogPost: crmBlogPost, template: template, files: files, selection: params.getSelectionURI()]
     }
 
     private void bindDate(CrmBlogPost target, String property, String value, TimeZone timezone = null) {

@@ -8,8 +8,8 @@
 
 <body>
 
-<crm:header title="crmBlogPost.list.title" subtitle="Sökningen resulterade i ${crmBlogPostTotal} st artiklar"
-            args="[entityName]">
+<crm:header title="crmBlogPost.list.title" subtitle="crmBlogPost.totalCount.label"
+            args="${[entityName, crmBlogPostTotal]}">
 </crm:header>
 
 
@@ -18,8 +18,10 @@
     <tr>
         <crm:sortableColumn property="title"
                             title="${message(code: 'crmBlogPost.title.label', default: 'Title')}"/>
-
-        <th><g:message code="crmBlogPost.date.label" default="Date"/></th>
+        <crm:sortableColumn property="username"
+                                    title="${message(code: 'crmBlogPost.username.label', default: 'Author')}"/>
+        <crm:sortableColumn property="date"
+                                    title="${message(code: 'crmBlogPost.date.label', default: 'Published')}"/>
         <crm:sortableColumn property="status"
                             title="${message(code: 'crmBlogPost.status.label', default: 'Status')}"/>
     </tr>
@@ -29,9 +31,15 @@
         <tr class="${crmBlogPost.active ? '' : 'disabled'}">
 
             <td>
-                <g:link controller="crmBlogPost" action="show" id="${crmBlogPost.id}">
+                <select:link action="show" id="${crmBlogPost.id}" selection="${selection}">
                     ${fieldValue(bean: crmBlogPost, field: "title")}
-                </g:link>
+                </select:link>
+            </td>
+
+            <td>
+                <g:if test="${crmBlogPost.username}">
+                    <crm:user username="${crmBlogPost.username}">${name}</crm:user>
+                </g:if>
             </td>
 
             <td>

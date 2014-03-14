@@ -4,12 +4,6 @@
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'crmBlogPost.label', default: 'Blog Post')}"/>
     <title><g:message code="crmBlogPost.show.title" args="[entityName, crmBlogPost]"/></title>
-    <r:script>
-        $(document).ready(function () {
-        });
-    </r:script>
-    <style type="text/css">
-    </style>
 </head>
 
 <body>
@@ -100,17 +94,17 @@
                 <g:if test="${crmBlogPost.date}">
                     <dt><g:message code="crmBlogPost.date.label" default="Date"/></dt>
                     <dd class="nowrap"><g:formatDate date="${crmBlogPost.date}"
-                                                     type="datetime"/></dd>
+                                                     format="EEE d MMMM yyyy"/></dd>
                 </g:if>
                 <g:if test="${crmBlogPost.visibleFrom && crmBlogPost.visibleTo}">
                     <dt><g:message code="crmBlogPost.visible.label" default="Visible"/></dt>
                     <dd>
                         <span class="nowrap">
-                            <g:formatDate date="${crmBlogPost.visibleFrom}" type="date"/>
+                            <g:formatDate date="${crmBlogPost.visibleFrom}" format="d MMM yyyy"/>
                         </span>
                         -
                         <span class="nowrap">
-                            <g:formatDate date="${crmBlogPost.visibleTo}" type="date"/>
+                            <g:formatDate date="${crmBlogPost.visibleTo}" format="d MMM yyyy"/>
                         </span>
                     </dd>
                 </g:if>
@@ -118,17 +112,17 @@
                     <g:if test="${crmBlogPost.visibleFrom}">
                         <dt><g:message code="crmBlogPost.visibleFrom.label" default="Visible From"/></dt>
                         <dd class="nowrap"><g:formatDate date="${crmBlogPost.visibleFrom}"
-                                                         type="date"/></dd>
+                                                         format="d MMMM yyyy"/></dd>
                     </g:if>
                     <g:if test="${crmBlogPost.visibleTo}">
                         <dt><g:message code="crmBlogPost.visibleTo.label" default="Visible To"/></dt>
                         <dd class="nowrap"><g:formatDate date="${crmBlogPost.visibleTo}"
-                                                         type="date"/></dd>
+                                                         format="d MMMM yyyy"/></dd>
                     </g:if>
                 </g:else>
                 <g:if test="${crmBlogPost.username}">
                     <dt><g:message code="crmBlogPost.username.label" default="Author"/></dt>
-                    <dd>${crmBlogPost.username}</dd>
+                    <dd><crm:user username="${crmBlogPost.username}">${name}</crm:user></dd>
                 </g:if>
             </dl>
         </div>

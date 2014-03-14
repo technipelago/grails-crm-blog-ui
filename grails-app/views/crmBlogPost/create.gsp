@@ -92,7 +92,7 @@
                         <f:field property="title"/>
                         <f:field property="description" input-rows="6"/>
                         <f:field property="status">
-                            <g:select from="${statusList}" name="status.id" optionKey="id"
+                            <g:select from="${metadata.statusList}" name="status.id" optionKey="id"
                                       value="${crmBlogPost.status?.id}"/>
                         </f:field>
                         <f:field property="visibleFrom">
@@ -124,7 +124,7 @@
                         --%>
                         </f:field>
                         <f:field property="username">
-                            <g:select name="username" from="${userList}" optionKey="username" optionValue="name"
+                            <g:select name="username" from="${metadata.userList}" optionKey="username" optionValue="name"
                                       value="${crmBlogPost.username}" noSelection="['':'']"/>
                         </f:field>
                         <f:field property="parser">
