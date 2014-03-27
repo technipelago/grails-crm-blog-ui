@@ -31,13 +31,25 @@
                     baseHref: "${createLink(controller: 'static')}"
                 });
 
-            $('#visibleFrom').closest('.date').datepicker({weekStart: 1}).on('changeDate', function (ev) {
+            $('#visibleFrom').closest('.date').datepicker({
+                    weekStart:1,
+                    language: "${(org.springframework.web.servlet.support.RequestContextUtils.getLocale(request) ?: new Locale('sv_SE')).getLanguage()}",
+                    calendarWeeks: ${grailsApplication.config.crm.datepicker.calendarWeeks ?: false},
+                    todayHighlight: true,
+                    autoclose: true
+                }).on('changeDate', function (ev) {
                 alignDates($("#visibleFrom"), $("#visibleTo"), false, ".date");
             });
             $("#visibleFrom").blur(function (ev) {
                 alignDates($(this), $("#visibleTo"), false, ".date");
             });
-            $('#visibleTo').closest('.date').datepicker({weekStart: 1}).on('changeDate', function (ev) {
+            $('#visibleTo').closest('.date').datepicker({
+                    weekStart:1,
+                    language: "${(org.springframework.web.servlet.support.RequestContextUtils.getLocale(request) ?: new Locale('sv_SE')).getLanguage()}",
+                    calendarWeeks: ${grailsApplication.config.crm.datepicker.calendarWeeks ?: false},
+                    todayHighlight: true,
+                    autoclose: true
+                }).on('changeDate', function (ev) {
                 alignDates($("#visibleTo"), $("#visibleFrom"), true, ".date");
             });
             $("#visibleTo").blur(function (ev) {
