@@ -94,20 +94,22 @@ class CrmBlogPostController {
     def create() {
         def tenant = TenantUtils.tenant
         def user = crmSecurityService.getCurrentUser()
+        def userList = crmSecurityService.getTenantUsers()
+        def statusList = crmBlogService.listBlogStatus()
         def crmBlogPost = new CrmBlogPost(username: user.username, status: statusList?.head())
 
         bindData(crmBlogPost, params, [include: CrmBlogPost.BIND_WHITELIST])
 
         def metadata = [:]
-        metadata.userList = crmSecurityService.getTenantUsers()
-        metadata.statusList = crmBlogService.listBlogStatus()
+        metadata.userList = userList
+        metadata.statusList = statusList
 
         def template = [text: '']
         def fileList = []
 
         switch (request.method) {
             case "GET":
-                return [crmBlogPost: crmBlogPost, template: template, files: fileList, statusList: statusList, userList: userList]
+                return [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata]
             case "POST":
 
                 def date = params.remove('date') ?: new Date().format("yyyy-MM-dd")
