@@ -74,7 +74,7 @@ class CrmBlogPostController {
         def result
         try {
             result = selectionService.select(uri, params)
-            if (result.size() == 1) {
+            if (result.totalCount == 1) {
                 // If we only got one record, show the record immediately.
                 redirect action: "show", params: selectionService.createSelectionParameters(uri) + [id: result.head().ident()]
             } else {
