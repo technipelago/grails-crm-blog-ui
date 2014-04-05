@@ -16,7 +16,7 @@
 
 class CrmBlogUiGrailsPlugin {
     def groupId = "grails.crm"
-    def version = "1.2.3"
+    def version = "1.2.4"
     def grailsVersion = "2.0 > *"
     def dependsOn = [:]
     def pluginExcludes = [
@@ -26,7 +26,8 @@ class CrmBlogUiGrailsPlugin {
     def author = "Göran Ehrsson"
     def authorEmail = "goran@technipelago.se"
     def description = '''\
-GR8 CRM Blog Author User Interface
+This plugin is a companion plugin to crm-blog, a plugin part of the GR8 CRM plugin suite.
+It contain user interfaces for creating, editing and publishing blog posts.
 '''
     def documentation = "https://github.com/technipelago/grails-crm-blog-ui"
     def license = "APACHE"
