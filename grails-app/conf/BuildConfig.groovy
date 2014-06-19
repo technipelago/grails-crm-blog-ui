@@ -30,21 +30,21 @@ grails.project.dependency.resolution = {
             export = false
             exclude "spock-grails-support"
         }
-        test(":codenarc:0.18.1") { export = false }
-        test(":code-coverage:1.2.6") { export = false }
+        test(":codenarc:0.21") { export = false }
+        test(":code-coverage:1.2.7") { export = false }
 
         compile "grails.crm:crm-core:latest.integration"
         compile "grails.crm:crm-blog:latest.integration"
         compile "grails.crm:crm-content:latest.integration"
 
-        runtime "grails.crm:crm-security:latest.integration"
-        runtime "grails.crm:crm-ui-bootstrap:latest.integration"
-        runtime "grails.crm:crm-tags:latest.integration"
+        compile "grails.crm:crm-security:latest.integration"
+        compile "grails.crm:crm-ui-bootstrap:latest.integration"
+        compile "grails.crm:crm-tags:latest.integration"
 
         compile ":selection:latest.integration"
-        runtime ":selection-repository:latest.integration"
+        compile ":selection-repository:latest.integration"
 
-        runtime ":ckeditor:3.6.3.0"
+        compile ":ckeditor:4.4.1.0"
     }
 }
 

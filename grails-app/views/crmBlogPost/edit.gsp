@@ -11,42 +11,20 @@
             var stylesheet = ["${resource(dir: 'less', file: 'bootstrap.less.css', plugin: 'twitter-bootstrap')}",
             "${resource(dir: 'less', file: 'crm-ui-bootstrap.less.css', plugin: 'crm-ui-bootstrap')}",
             "${resource(dir: 'less', file: 'responsive.less.css', plugin: 'twitter-bootstrap')}"];
-        <% if (css) { %>
-        stylesheet.push("${resource(css)}");
-        <% } %>
-        var editor = CKEDITOR.replace('content',
+            <% if (css) { %>
+            stylesheet.push("${resource(css)}");
+            <% } %>
+            var editor = CKEDITOR.replace('content',
             {
-                width: '98.3%',
-                height: '480px',
-                resize_enabled: true,
-                startupFocus: true,
-                skin: 'kama',
-                toolbar: [
-                    ['Styles', 'Format', 'Font', 'FontSize'],
-                    ['Source'],
-                    '/',
-                    ['Bold', 'Italic', 'Underline', 'Strike', 'TextColor', 'BGColor', 'RemoveFormat'],
-                    ['Paste', 'PasteText', 'PasteFromWord'],
-                    ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
-                    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                    ['Image', 'Link', 'Unlink'],
-                    ['Table', 'HorizontalRule']
-                ],
-                basicEntities: false,
-                protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g],
+                customConfig: "${resource(dir: 'js', file: 'crm-ckeditor-config.js', plugin: 'crm-content-ui')}",
+                stylesSet: "crm-web-styles:${resource(dir: 'js', file: 'crm-ckeditor-styles.js', plugin: 'crm-content-ui')}",
                 baseHref: "${createLink(controller: 'static')}",
-                    contentsCss: stylesheet,
-                    /*
-                    font_names: ['Arial','Helvetica','Verdana'],
-                    forcePasteAsPlainText: true,
-                    htmlEncodeOutput: false,
-                    entities: false,
-                    */
-                    filebrowserBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                    filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
-                    filebrowserImageBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                    filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
-                });
+                contentsCss: stylesheet,
+                filebrowserBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
+                filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
+                filebrowserImageBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [pattern: 'image', status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
+                filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
+            });
 
             <crm:datepicker selector="#publishDate"/>
 

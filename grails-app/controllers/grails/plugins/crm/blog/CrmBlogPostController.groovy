@@ -97,6 +97,7 @@ class CrmBlogPostController {
         def userList = crmSecurityService.getTenantUsers()
         def statusList = crmBlogService.listBlogStatus()
         def crmBlogPost = new CrmBlogPost(username: user.username, status: statusList?.head())
+        def css = grailsApplication.config.crm.content.editor.css
 
         bindData(crmBlogPost, params, [include: CrmBlogPost.BIND_WHITELIST])
 
@@ -109,7 +110,7 @@ class CrmBlogPostController {
 
         switch (request.method) {
             case "GET":
-                return [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata]
+                return [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata, css: css]
             case "POST":
 
                 def date = params.remove('date') ?: new Date().format("yyyy-MM-dd")
@@ -123,7 +124,7 @@ class CrmBlogPostController {
                 bindDate(crmBlogPost, 'visibleFrom', visibleTo ? visibleTo + ' 23:59' : null, user?.timezoneInstance)
 
                 if (!crmBlogPost.save(flush: true)) {
-                    render(view: "create", model: [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata])
+                    render(view: "create", model: [crmBlogPost: crmBlogPost, template: template, files: fileList, metadata: metadata, css: css])
                     return
                 }
 
