@@ -1,15 +1,13 @@
-grails.project.work.dir = "target"
+grails.project.class.dir = "target/classes"
+grails.project.test.class.dir = "target/test-classes"
+grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
-
-grails.project.repos.default = "crm"
 
 grails.project.dependency.resolution = {
     inherits("global") {}
     log "warn"
     legacyResolve false
     repositories {
-        grailsHome()
-        mavenRepo "http://labs.technipelago.se/repo/plugins-releases-local/"
         mavenRepo "http://labs.technipelago.se/repo/crm-releases-local/"
         grailsCentral()
         mavenCentral()
@@ -33,18 +31,12 @@ grails.project.dependency.resolution = {
         test(":codenarc:0.21") { export = false }
         test(":code-coverage:1.2.7") { export = false }
 
-        compile "grails.crm:crm-core:latest.integration"
-        compile "grails.crm:crm-blog:latest.integration"
-        compile "grails.crm:crm-content:latest.integration"
-
-        compile "grails.crm:crm-security:latest.integration"
-        compile "grails.crm:crm-ui-bootstrap:latest.integration"
-        compile "grails.crm:crm-tags:latest.integration"
-
-        compile ":selection:latest.integration"
-        compile ":selection-repository:latest.integration"
-
+        compile ":selection:0.9.7"
+        compile ":selection-repository:0.9.3"
         compile ":ckeditor:4.4.1.0"
+
+        compile "grails.crm:crm-blog:1.3.0"
+        compile ":crm-ui-bootstrap:2.0.0"
     }
 }
 
