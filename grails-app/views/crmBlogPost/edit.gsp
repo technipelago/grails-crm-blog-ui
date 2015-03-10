@@ -119,34 +119,45 @@
                                           value="${crmBlogPost.status?.id}" class="span11"/>
                             </f:field>
 
-                            <f:field property="date">
-                                <span id="publishDate" class="input-append date"
-                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date ?: new Date())}">
-                                    <g:textField name="date" class="span10" size="10"
-                                                 placeholder="ÅÅÅÅ-MM-DD"
-                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date)}"/><span
-                                        class="add-on"><i class="icon-th"></i></span>
-                                </span>
-                            </f:field>
+                            <div class="control-group">
+                                <label class="control-label"><g:message code="crmBlogPost.date.label"/></label>
+                                <div class="controls">
+                                    <span id="publishDate" class="input-append date"
+                                          data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date ?: new Date())}">
+                                        <g:textField name="date" class="span10" size="10"
+                                                     placeholder="ÅÅÅÅ-MM-DD"
+                                                     value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.date)}"/><span
+                                            class="add-on"><i class="icon-th"></i></span>
+                                    </span>
+                                </div>
+                            </div>
 
-                            <f:field property="visibleFrom">
-                                <span class="input-append date"
-                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
-                                    <g:textField name="visibleFrom" class="span10" size="10"
-                                                 placeholder="ÅÅÅÅ-MM-DD"
-                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
-                                        class="add-on"><i class="icon-th"></i></span>
-                                </span>
-                            </f:field>
-                            <f:field property="visibleTo">
-                                <span class="input-append date"
-                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
-                                    <g:textField name="visibleTo" class="span10" size="10"
-                                                 placeholder="ÅÅÅÅ-MM-DD"
-                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
-                                        class="add-on"><i class="icon-th"></i></span>
-                                </span>
-                            </f:field>
+                            <div class="control-group">
+                                <label class="control-label"><g:message code="crmBlogPost.visibleFrom.label"/></label>
+                                <div class="controls">
+                                    <span class="input-append date"
+                                          data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
+                                        <g:textField name="visibleFrom" class="span10" size="10"
+                                                     placeholder="ÅÅÅÅ-MM-DD"
+                                                     value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
+                                            class="add-on"><i class="icon-th"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><g:message code="crmBlogPost.visibleTo.label"/></label>
+                                <div class="controls">
+                                    <span class="input-append date"
+                                          data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
+                                        <g:textField name="visibleTo" class="span10" size="10"
+                                                     placeholder="ÅÅÅÅ-MM-DD"
+                                                     value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
+                                            class="add-on"><i class="icon-th"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+
                             <f:field property="parser">
                                 <g:select from="${['raw', 'freemarker', 'gsp']}" name="parser"
                                           value="${crmBlogPost.parser}" valueMessagePrefix="crmContent.parser"

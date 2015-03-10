@@ -45,20 +45,26 @@
 
                     <div class="span5">
                         <div class="row-fluid">
-                            <f:field property="fromDate">
-                                <div class="input-append date">
-                                    <g:textField name="fromDate" class="span10" placeholder="ÅÅÅÅ-MM-DD"
+                            <div class="control-group">
+                                <label class="control-label"><g:message code="crmBlogPost.fromDate.label"/></label>
+                                <div class="controls">
+                                    <div class="input-append date">
+                                        <g:textField name="fromDate" class="span10" placeholder="ÅÅÅÅ-MM-DD"
                                                  value="${cmd.fromDate}"/><span
                                         class="add-on"><i class="icon-th"></i></span>
+                                    </div>
                                 </div>
-                            </f:field>
-                            <f:field property="toDate">
-                                <div class="input-append date">
-                                    <g:textField name="toDate" class="span10" placeholder="ÅÅÅÅ-MM-DD"
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><g:message code="crmBlogPost.toDate.label"/></label>
+                                <div class="controls">
+                                    <div class="input-append date">
+                                        <g:textField name="toDate" class="span10" placeholder="ÅÅÅÅ-MM-DD"
                                                  value="${cmd.toDate}"/><span
                                         class="add-on"><i class="icon-th"></i></span>
+                                    </div>
                                 </div>
-                            </f:field>
+                            </div>
                         </div>
                     </div>
 

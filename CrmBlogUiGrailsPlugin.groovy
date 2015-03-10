@@ -16,8 +16,8 @@
 
 class CrmBlogUiGrailsPlugin {
     def groupId = "grails.crm"
-    def version = "1.3.0"
-    def grailsVersion = "2.0 > *"
+    def version = "1.4.0-SNAPSHOT"
+    def grailsVersion = "2.2 > *"
     def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp"

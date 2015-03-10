@@ -98,34 +98,33 @@
                             <g:select from="${metadata.statusList}" name="status.id" optionKey="id"
                                       value="${crmBlogPost.status?.id}"/>
                         </f:field>
-                        <f:field property="visibleFrom">
-                            <span class="input-append date"
-                                  data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
-                                <g:textField name="visibleFrom" class="span10" size="10"
-                                             placeholder="ÅÅÅÅ-MM-DD"
-                                             value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
-                                    class="add-on"><i class="icon-th"></i></span>
-                            </span>
-                        <%--
-                                                    <g:select name="startTime" from="${timeList}"
-                                                              value="${formatDate(format: 'HH:mm', date: crmCampaign.startTime)}"
-                                                              class="span4"/>
-                        --%>
-                        </f:field>
-                        <f:field property="visibleTo">
-                            <span class="input-append date"
-                                  data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
-                                <g:textField name="visibleTo" class="span10" size="10"
-                                             placeholder="ÅÅÅÅ-MM-DD"
-                                             value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
-                                    class="add-on"><i class="icon-th"></i></span>
-                            </span>
-                        <%--
-                                                    <g:select name="startTime" from="${timeList}"
-                                                              value="${formatDate(format: 'HH:mm', date: crmCampaign.startTime)}"
-                                                              class="span4"/>
-                        --%>
-                        </f:field>
+
+                        <div class="control-group">
+                            <label class="control-label"><g:message code="crmBlogPost.visibleFrom.label"/></label>
+                            <div class="controls">
+                                <span class="input-append date"
+                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom ?: new Date())}">
+                                    <g:textField name="visibleFrom" class="span10" size="10"
+                                                 placeholder="ÅÅÅÅ-MM-DD"
+                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleFrom)}"/><span
+                                        class="add-on"><i class="icon-th"></i></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label"><g:message code="crmBlogPost.visibleTo.label"/></label>
+                            <div class="controls">
+                                <span class="input-append date"
+                                      data-date="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo ?: new Date())}">
+                                    <g:textField name="visibleTo" class="span10" size="10"
+                                                 placeholder="ÅÅÅÅ-MM-DD"
+                                                 value="${formatDate(format: 'yyyy-MM-dd', date: crmBlogPost.visibleTo)}"/><span
+                                        class="add-on"><i class="icon-th"></i></span>
+                                </span>
+                            </div>
+                        </div>
+
                         <f:field property="username">
                             <g:select name="username" from="${metadata.userList}" optionKey="username" optionValue="name"
                                       value="${crmBlogPost.username}" noSelection="['':'']"/>
