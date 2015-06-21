@@ -17,13 +17,15 @@
             var editor = CKEDITOR.replace('content',
             {
                 customConfig: "${resource(dir: 'js', file: 'crm-ckeditor-config.js', plugin: 'crm-content-ui')}",
-                stylesSet: "crm-web-styles:${resource(dir: 'js', file: 'crm-ckeditor-styles.js', plugin: 'crm-content-ui')}",
-                baseHref: "${createLink(controller: 'static')}",
-                contentsCss: stylesheet,
-                filebrowserBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
-                filebrowserImageBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse', params: [pattern: 'image', status: 'shared', reference: 'crmBlogPost@' + crmBlogPost.ident()])}",
-                filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
+                    stylesSet: "crm-web-styles:${
+                resource(dir: 'js', file: 'crm-ckeditor-styles.js', plugin: 'crm-content-ui')}",
+                    baseHref: "${createLink(controller: 'static')}",
+                    contentsCss: stylesheet,
+                    filebrowserBrowseUrl: "${createLink(controller: 'crmContent', action: 'browse')}?status=shared&reference=crmBlogPost@${crmBlogPost.ident()}",
+                    filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
+                    filebrowserImageBrowseUrl: "${
+                createLink(controller: 'crmContent', action: 'browse')}?pattern=image&status=shared&reference=crmBlogPost@${crmBlogPost.ident()}",
+                    filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
             });
 
             <crm:datepicker selector="#publishDate"/>
