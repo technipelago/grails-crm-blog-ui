@@ -33,6 +33,68 @@ that focus on one specific domain, for example *contact*, *project* or *document
 == Blog Authoring Plugin
 
 This plugin provide a Twitter Bootstrap based user interface for managing blogs in {gr8crm} applications.
+This plugin depends on the https://github.com/technipelago/grails-crm-blog[crm-blog] plugin for persistence and services.
+
+=== Search for existing blog posts
+
+The crmBlogPostController.index action rnders a query for where you can search for blog posts.
+
+image::blog-find.png[role="thumb"]
+
+Search results are presented in a list.
+
+image::blog-list.png[role="thumb"]
+
+== Edit blog posts
+
+You can view a blog post in the authors view.
+
+image::blog-list.png[role="thumb"]
+
+Click the *Edit* button to edit content and settings for a blog post.
+
+image::blog-edit.png[role="thumb"]
+
+== Render blog posts
+
+To render blog posts in a GSP page you can use the *crm:blogPosts* tag.
+It iterates over all published blog posts and render it's content on the page.
+The following example show that:
+
+[source,html]
+.blog/index.gsp
+----
+<crm:blogPosts var="post" query="${[status: 'published']}" params="${[max: 20, sort: 'date', order: 'desc']}">
+    <div class="crm-blog-post" id="${post.name}">
+        <g:link action="show" id="${post.name}"><h2>${post.title.encodeAsHTML()}</h2></g:link>
+
+        <p class="lead">${post.description?.encodeAsHTML()}</p>
+
+        <div>
+            <span class="muted" style="font-size: 12px;">
+                Published <g:formatDate format="d MMM yyyy" date="${post.date}"/>
+            </span>
+        </div>
+
+        <div class="crm-blog-body">
+            <crm:render template="${post.template}" parser="${post.parser}" model="${post}"/>
+        </div>
+
+        <p class="crm-blog-tags">
+            <span class="muted">Tags:</span>
+            <g:each in="${post.tags()}" var="tag">
+                <span class="label label-info">${tag.encodeAsHTML()}</span>
+            </g:each>
+        </p>
+
+        <hr/>
+    </div>
+</crm:blogPosts>
+----
+
+The example above render something like this:
+
+image::blog-view.png[role="thumb"]
 
 == Changes
 
