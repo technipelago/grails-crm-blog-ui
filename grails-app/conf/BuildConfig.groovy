@@ -41,10 +41,10 @@ grails.project.dependency.resolution = {
 
         compile ":selection:0.9.8"
         compile ":selection-repository:0.9.3"
-        compile ":ckeditor:4.4.1.0"
+        compile ":ckeditor:4.5.4.0"
 
-        compile ":crm-ui-bootstrap:2.4.0"
+        compile ":crm-ui-bootstrap:2.4.1"
 
-        compile "grails.crm:crm-blog:1.4.0-SNAPSHOT"
+        compile "grails.crm:crm-blog:1.4.0"
     }
 }
