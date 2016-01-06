@@ -14,3 +14,7 @@ With CRM we mean features like:
 ## Blog Authoring Plugin
 This plugin provides user interfaces for authors of GR8 CRM Blogs.
 This plugin depends on the [crm-blog](https://github.com/technipelago/grails-crm-blog) plugin for services and persistence.
+
+## Documentation
+
+Complete documentation for this plugin can be found at [gr8crm.github.io](http://gr8crm.github.io/plugins/crm-blog-ui/)
