@@ -94,7 +94,7 @@ The following example show that:
 
 The example above render something like this:
 
-image::blog-view.png
+image::blog-view.png[]
 
 == Changes
 
