@@ -22,6 +22,7 @@ import grails.plugins.crm.content.CrmResourceRef
 import grails.plugins.crm.core.DateUtils
 import grails.plugins.crm.core.TenantUtils
 import grails.plugins.crm.core.WebUtils
+import grails.transaction.Transactional
 import org.springframework.dao.DataIntegrityViolationException
 
 import javax.servlet.http.HttpServletResponse
@@ -91,6 +92,7 @@ class CrmBlogPostController {
         redirect(action: 'index')
     }
 
+    @Transactional
     def create() {
         def tenant = TenantUtils.tenant
         def user = crmSecurityService.getCurrentUser()
@@ -131,7 +133,7 @@ class CrmBlogPostController {
                 byte[] bytes = (params.text ?: '').getBytes('UTF-8')
                 def inputStream = new ByteArrayInputStream(bytes)
                 crmContentService.createResource(inputStream, 'content.html', bytes.length, 'text/html', crmBlogPost,
-                        [title: 'Artikelns innehåll', status: "shared"])
+                        [title: message(code: 'crmBlogPost.content.title').toString(), status: "shared"])
 
                 event(for: 'crmBlogPost', topic: 'created', data: [tenant: tenant, id: crmBlogPost.id, user: user.username])
 
@@ -141,6 +143,7 @@ class CrmBlogPostController {
         }
     }
 
+    @Transactional
     def edit(Long id) {
         def tenant = TenantUtils.tenant
         def crmBlogPost = CrmBlogPost.findByIdAndTenantId(id, tenant)
@@ -193,7 +196,7 @@ class CrmBlogPostController {
                     crmContentService.updateResource(template, inputStream, 'text/html')
                 } else {
                     template = crmContentService.createResource(inputStream, 'content.html', bytes.length, 'text/html', crmBlogPost,
-                            [title: 'Artikelns innehåll', status: "shared"])
+                            [title: message(code: 'crmBlogPost.content.title').toString(), status: "shared"])
                 }
 
                 // Update status on attached content based on blog status.
@@ -214,8 +217,8 @@ class CrmBlogPostController {
         }
     }
 
+    @Transactional
     def delete(Long id) {
-
         def tenant = TenantUtils.tenant
         def crmBlogPost = CrmBlogPost.findByIdAndTenantId(id, tenant)
         if (!crmBlogPost) {
@@ -332,9 +335,8 @@ class CrmBlogPostController {
         }
     }
 
-    private boolean isImage(String name) {
-        name = name.toLowerCase()
-        name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.gif')
+    private boolean isImage(CrmResourceRef content) {
+        crmContentService.isImage(content)
     }
 
     def images(String reference) {
@@ -355,7 +357,7 @@ class CrmBlogPostController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND)
             return
         }
-        def images = crmContentService.findResourcesByReference(domainInstance).findAll { isImage(it.name) }
+        def images = crmContentService.findResourcesByReference(domainInstance).findAll { isImage(it) }
         def path = crmContentService.getAbsolutePath(domainInstance)
         if (path) {
             path = path.split('/')
