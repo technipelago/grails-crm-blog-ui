@@ -98,6 +98,7 @@ image::blog-view.png[]
 
 == Changes
 
+2.4.1:: Grails 2.4+ compatibility
 2.4.0:: First public release
 
 == License
