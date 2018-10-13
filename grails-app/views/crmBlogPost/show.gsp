@@ -4,6 +4,18 @@
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'crmBlogPost.label', default: 'Blog Post')}"/>
     <title><g:message code="crmBlogPost.show.title" args="[entityName, crmBlogPost]"/></title>
+    <r:script>
+    var CRM = {
+        update: function(property, value) {
+            if(property == 'status') {
+                var $form = $("#update-form");
+                $("input[name='status.id']", $form).val(value);
+                $form.submit();
+            }
+            return false;
+        }
+    };
+</r:script>
 </head>
 
 <body>
@@ -38,8 +50,11 @@
 
 
                     <div class="form-actions">
-                        <g:form>
-                            <g:hiddenField name="id" value="${crmBlogPost?.id}"/>
+                        <g:form action="update" name="update-form">
+
+                            <g:hiddenField name="id" value="${crmBlogPost.id}"/>
+                            <g:hiddenField name="version" value="${crmBlogPost.version}"/>
+                            <g:hiddenField name="status.id" value="${crmBlogPost.statusId}"/>
 
                             <crm:selectionMenu location="crmBlogPost" visual="primary">
                                 <crm:button type="link" controller="crmBlogPost" action="index"
@@ -47,10 +62,22 @@
                                             label="crmBlogPost.button.find.label"/>
                             </crm:selectionMenu>
 
-                            <crm:button type="link" action="edit" id="${crmBlogPost?.id}" visual="warning"
-                                        icon="icon-pencil icon-white"
-                                        label="crmBlogPost.button.edit.label" permission="crmBlogPost:edit">
-                            </crm:button>
+                            <crm:hasPermission permission="crmBlogPost:edit">
+                                <crm:button type="link" group="true" action="edit" id="${crmBlogPost.id}" visual="warning"
+                                            icon="icon-pencil icon-white"
+                                            label="crmBlogPost.button.edit.label">
+                                    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <g:each in="${metadata.statusList}" var="status">
+                                            <li>
+                                                <a href="#" onclick="CRM.update('status', ${status.id})">${status}</a>
+                                            </li>
+                                        </g:each>
+                                    </ul>
+                                </crm:button>
+                            </crm:hasPermission>
 
                             <crm:button type="link" action="create"
                                         visual="success"

@@ -217,6 +217,28 @@ class CrmBlogPostController {
         }
     }
 
+    def update(Long id) {
+        def tenant = TenantUtils.tenant
+        def crmBlogPost = CrmBlogPost.findByIdAndTenantId(id, tenant)
+        if (!crmBlogPost) {
+            flash.error = message(code: 'crmBlogPost.not.found.message', args: [message(code: 'crmBlogPost.label', default: 'Blog Post'), id])
+            redirect(action: "index")
+            return
+        }
+
+        bindData(crmBlogPost, params, [include: ['version', 'status']])
+
+        if (params.int('version') != null && crmBlogPost.version > params.int('version')) {
+            flash.warning = "Another user has updated this post while you were editing"
+        } else {
+            if(crmBlogPost.save(flush: true)) {
+                flash.success = message(code: 'crmBlogPost.status.updated.message', args: [crmBlogPost.status?.name], default: "Status is now {0}")
+            }
+        }
+
+        redirect(action: "show", id: id)
+    }
+
     @Transactional
     def delete(Long id) {
         def tenant = TenantUtils.tenant
@@ -250,6 +272,8 @@ class CrmBlogPostController {
 
         def files = crmContentService.findResourcesByReference(crmBlogPost)
         def template = files.find { it.name == 'content.html' }
+        def metadata = [:]
+        metadata.statusList = crmBlogService.listBlogStatus()
 
         /*
          * If we include 'crmBlogPost:show' in the configuration [recentDomain.autoscan.actions] then it will pick up
@@ -259,7 +283,7 @@ class CrmBlogPostController {
          */
         recentDomainService?.remember(crmBlogPost, request)
 
-        [crmBlogPost: crmBlogPost, template: template, files: files, selection: params.getSelectionURI()]
+        [crmBlogPost: crmBlogPost, metadata: metadata, template: template, files: files, selection: params.getSelectionURI()]
     }
 
     private void bindDate(CrmBlogPost target, String property, String value, TimeZone timezone = null) {
