@@ -25,7 +25,10 @@
                     filebrowserUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
                     filebrowserImageBrowseUrl: "${
                 createLink(controller: 'crmContent', action: 'browse')}?pattern=image&status=shared&reference=crmBlogPost@${crmBlogPost.ident()}",
-                    filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}"
+                    filebrowserImageUploadUrl: "${createLink(controller: 'crmContent', action: 'upload')}",
+                    fillEmptyBlocks: function (element) { return true; },
+                    protectedSource: [/\[@link\s+[\s\S]*?\[\/@link\]/g, /\[#[\s\S]*?\]/g, /<pre>.*<\/pre>/g],
+                    startupFocus: false
             });
 
             <crm:datepicker selector="#publishDate"/>
@@ -92,6 +95,21 @@
 
         <div class="tab-pane active" id="main">
             <div class="row-fluid">
+                <f:with bean="${crmBlogPost}">
+                    <div class="span7">
+                        <f:field property="title" input-class="span11" input-autofocus="autofocus"/>
+                    </div>
+                    <div class="span5">
+                        <f:field property="status">
+                            <g:select from="${metadata.statusList}" name="status.id" optionKey="id"
+                                      value="${crmBlogPost.statusId}" class="span11"/>
+                        </f:field>
+                    </div>
+                </f:with>
+            </div>
+
+            <div class="row-fluid">
+
                 <g:textArea id="content" name="text" cols="70" rows="18" class="span11"
                             value="${template?.text}"/>
             </div>
@@ -102,9 +120,8 @@
                 <div class="row-fluid">
                     <div class="span7">
                         <div class="row-fluid">
-                            <f:field property="title" input-class="span11"/>
                             <f:field property="name" input-class="span11"/>
-                            <f:field property="description" input-rows="6" input-class="span11"/>
+                            <f:field property="description" input-rows="5" input-class="span11"/>
 
                             <f:field property="username">
                                 <g:select name="username" from="${metadata.userList}" optionKey="username"
@@ -116,10 +133,6 @@
 
                     <div class="span5">
                         <div class="row-fluid">
-                            <f:field property="status">
-                                <g:select from="${metadata.statusList}" name="status.id" optionKey="id"
-                                          value="${crmBlogPost.status?.id}" class="span11"/>
-                            </f:field>
 
                             <div class="control-group">
                                 <label class="control-label"><g:message code="crmBlogPost.date.label"/></label>
